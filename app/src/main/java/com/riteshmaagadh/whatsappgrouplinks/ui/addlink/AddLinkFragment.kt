@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,8 @@ import com.riteshmaagadh.whatsappgrouplinks.ui.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
+import java.net.URI
+import java.net.URISyntaxException
 
 
 class AddLinkFragment : Fragment() {
@@ -48,14 +51,14 @@ class AddLinkFragment : Fragment() {
         binding.addGroupBtn.setOnClickListener {
             if (Utils.isOnline(requireContext())){
                 if (binding.groupNameEditText.text!!.isNotEmpty()){
-                    if (binding.groupLinkEditText.text!!.isNotEmpty()){
+                    if (isValidGroupLink(binding.groupLinkEditText.text!!.toString())){
                         addGroupRequest(
                             binding.groupNameEditText.text.toString(),
                             binding.groupLinkEditText.text.toString(),
                             binding.categoriesSpinner.selectedItem.toString()
                         )
                     } else {
-                        binding.groupLinkInputLayout.error = "Group link is required!"
+                        binding.groupLinkInputLayout.error = "Invalid group link!"
                     }
                 } else {
                     binding.groupNameInputLayout.error = "Group name is required!"
@@ -66,11 +69,47 @@ class AddLinkFragment : Fragment() {
         }
 
         binding.imageView.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            intent.type = "image/*"
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1001)
+            chooseImage()
         }
 
+        binding.uploadPicTv.setOnClickListener {
+            chooseImage()
+        }
+
+        binding.downArrow.setOnClickListener {
+            binding.categoriesSpinner.performClick()
+        }
+
+    }
+
+    private fun isValidGroupLink(url: String) : Boolean {
+        var isValid = false
+        if (Patterns.WEB_URL.matcher(url).matches()){
+            try {
+                isValid = getUrlDomain(url) == "chat.whatsapp.com"
+            } catch (e: Exception){
+                e.printStackTrace()
+            }
+        } else {
+            isValid = false
+        }
+        return isValid
+    }
+
+    @Throws(URISyntaxException::class)
+    fun getUrlDomain(url: String?): String {
+        val uri = URI(url)
+        val domain: String = uri.host
+        val domainArray = domain.split("\\.").toTypedArray()
+        return if (domainArray.size == 1) {
+            domainArray[0]
+        } else domainArray[domainArray.size - 2] + "." + domainArray[domainArray.size - 1]
+    }
+
+    private fun chooseImage() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1001)
     }
 
 
@@ -111,7 +150,7 @@ class AddLinkFragment : Fragment() {
     }
 
     private fun addGroupRequest(title: String, groupLink: String, category: String) {
-        val group = Group(title, groupLink, category,imageUrl)
+        val group = Group("", title, groupLink, category,imageUrl, false)
         lifecycleScope.launch(Dispatchers.IO){
             FirebaseFirestore.getInstance()
                 .collection("whatsapp_groups")

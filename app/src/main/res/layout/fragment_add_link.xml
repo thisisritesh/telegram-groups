@@ -42,6 +42,16 @@
         android:scaleType="centerCrop"
         android:padding="4dp"/>
 
+    <TextView
+        android:id="@+id/upload_pic_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_photo"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:layout_gravity="center"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/group_name_input_layout"
         style="@style/CustomEditText"
@@ -89,16 +99,31 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/categories_spinner"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/border_bg"
-        android:entries="@array/categories"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="16dp" />
+        android:layout_marginBottom="16dp">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/categories_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_bg"
+            android:entries="@array/categories"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="16dp" />
+
+        <ImageView
+            android:id="@+id/down_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_arrow_drop_down_24"
+            app:tint="@color/secondary_text_color"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="8dp"/>
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/add_group_btn"

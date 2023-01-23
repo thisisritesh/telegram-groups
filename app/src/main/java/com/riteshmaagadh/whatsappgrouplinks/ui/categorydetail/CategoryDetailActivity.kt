@@ -46,6 +46,7 @@ class CategoryDetailActivity : AppCompatActivity() {
                 FirebaseFirestore.getInstance()
                     .collection("whatsapp_groups")
                     .whereEqualTo("category",title)
+                    .whereEqualTo("active", true)
                     .get()
                     .addOnSuccessListener {
                         val list = it.toObjects(Group::class.java)

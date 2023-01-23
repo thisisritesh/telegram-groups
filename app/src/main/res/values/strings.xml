@@ -11,6 +11,7 @@
     <string name="no_groups_found_in_this_category">No groups found in this category!</string>
     <string name="no_internet">No Internet Connection!</string>
     <string name="something_went_wrong">Something went wrong!</string>
+    <string name="upload_photo">Upload Photo</string>
 
 
     <string-array name="categories">

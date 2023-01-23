@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
 import com.riteshmaagadh.whatsappgrouplinks.R
 import com.riteshmaagadh.whatsappgrouplinks.data.models.Group
 import com.riteshmaagadh.whatsappgrouplinks.databinding.GroupItemBinding
