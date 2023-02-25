@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
             lifecycleScope.launch(Dispatchers.IO){
                 FirebaseFirestore.getInstance()
                     .collection("whatsapp_groups")
-                    .whereEqualTo("active", true)
+//                    .whereEqualTo("active", true)
                     .get()
                     .addOnSuccessListener {
                         binding.recyclerView.adapter = GroupsAdapter(it.toObjects(Group::class.java), requireContext())

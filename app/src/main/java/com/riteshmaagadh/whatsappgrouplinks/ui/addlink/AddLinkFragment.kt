@@ -1,7 +1,6 @@
 package com.riteshmaagadh.whatsappgrouplinks.ui.addlink
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -15,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -36,6 +36,7 @@ class AddLinkFragment : Fragment() {
 
     private lateinit var binding: FragmentAddLinkBinding
     private var imageUrl = ""
+    private lateinit var dialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +48,11 @@ class AddLinkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        builder.setCancelable(false)
+        builder.setView(R.layout.layout_loading_dialog)
+        dialog = builder.create()
 
         binding.addGroupBtn.setOnClickListener {
             if (Utils.isOnline(requireContext())){
@@ -122,6 +128,7 @@ class AddLinkFragment : Fragment() {
             }
             path = dataIntent.data
             try {
+                dialog.show()
                 if (path != null) {
                     val bitmap =
                         MediaStore.Images.Media.getBitmap(requireContext().contentResolver, path)
@@ -137,9 +144,11 @@ class AddLinkFragment : Fragment() {
                         .addOnSuccessListener {
                             ref.downloadUrl.addOnSuccessListener {
                                 imageUrl = it.toString()
+                                dialog.dismiss()
                             }
                         }
                         .addOnFailureListener {
+                            dialog.dismiss()
                             Toast.makeText(requireContext(),"Failed to upload image! Try Again.",Toast.LENGTH_SHORT).show()
                         }
                 }

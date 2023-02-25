@@ -7,9 +7,67 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:304420986396:android:9d1ead8176ecfacec549d9",
+        "mobilesdk_app_id": "1:304420986396:android:f667f1a25f2f0c2ec549d9",
         "android_client_info": {
-          "package_name": "com.riteshmaagadh.whatsappgrouplinks"
+          "package_name": "com.riteshmaagadh.hindubabynames"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304420986396-duh6ca7593b8vu687t0f00ouavi5u19u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBucC8vUE1q8Ev0S2Ebp4RGOjPOn8DMAoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304420986396-duh6ca7593b8vu687t0f00ouavi5u19u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304420986396:android:aa3a0451128b78aac549d9",
+        "android_client_info": {
+          "package_name": "com.riteshmaagadh.telegramgrouplinks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304420986396-duh6ca7593b8vu687t0f00ouavi5u19u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBucC8vUE1q8Ev0S2Ebp4RGOjPOn8DMAoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304420986396-duh6ca7593b8vu687t0f00ouavi5u19u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304420986396:android:4966cbf7d4efaed1c549d9",
+        "android_client_info": {
+          "package_name": "com.riteshmaagadh.whatsjoin"
         }
       },
       "oauth_client": [

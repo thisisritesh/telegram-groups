@@ -20,6 +20,8 @@ import com.riteshmaagadh.whatsappgrouplinks.databinding.GroupItemBinding
 class GroupsAdapter(private val list: List<Group>, val context: Context) :
     RecyclerView.Adapter<GroupsAdapter.GroupViewHolder>() {
 
+    // Change App name
+    // Change App icon
 
     inner class GroupViewHolder(binding: GroupItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.groupNameTv
