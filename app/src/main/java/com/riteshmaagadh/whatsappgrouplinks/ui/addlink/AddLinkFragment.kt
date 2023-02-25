@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.riteshmaagadh.whatsappgrouplinks.R
 import com.riteshmaagadh.whatsappgrouplinks.data.models.Group
+import com.riteshmaagadh.whatsappgrouplinks.data.models.Index
 import com.riteshmaagadh.whatsappgrouplinks.databinding.FragmentAddLinkBinding
 import com.riteshmaagadh.whatsappgrouplinks.ui.Utils
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,7 @@ class AddLinkFragment : Fragment() {
     private lateinit var binding: FragmentAddLinkBinding
     private var imageUrl = ""
     private lateinit var dialog: AlertDialog
+    private var currentIndex: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +55,16 @@ class AddLinkFragment : Fragment() {
         builder.setCancelable(false)
         builder.setView(R.layout.layout_loading_dialog)
         dialog = builder.create()
+
+
+        FirebaseFirestore.getInstance()
+            .collection("whatsapp_indexes")
+            .document("ECiL6ApsUOmPIZsSy1dB")
+            .get()
+            .addOnSuccessListener {
+                val index = it.toObject(Index::class.java)
+                currentIndex = index?.current_index!!
+            }
 
         binding.addGroupBtn.setOnClickListener {
             if (Utils.isOnline(requireContext())){
@@ -159,18 +171,27 @@ class AddLinkFragment : Fragment() {
     }
 
     private fun addGroupRequest(title: String, groupLink: String, category: String) {
-        val group = Group("", title, groupLink, category,imageUrl, false)
+        currentIndex += 1
+        val group = Group("", title, groupLink, category,imageUrl, false, currentIndex)
         lifecycleScope.launch(Dispatchers.IO){
             FirebaseFirestore.getInstance()
                 .collection("whatsapp_groups")
                 .add(group)
                 .addOnSuccessListener {
+                    updateIndex()
                     showSuccessDialog()
                 }
                 .addOnFailureListener {
                     Snackbar.make(requireContext(),binding.root,"Failed. Try Again!", Snackbar.LENGTH_SHORT).show()
                 }
         }
+    }
+
+    private fun updateIndex() {
+        FirebaseFirestore.getInstance()
+            .collection("whatsapp_indexes")
+            .document("ECiL6ApsUOmPIZsSy1dB")
+            .update("current_index", currentIndex)
     }
 
     private fun showSuccessDialog(){

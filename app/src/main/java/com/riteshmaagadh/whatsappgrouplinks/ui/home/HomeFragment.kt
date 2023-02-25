@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.riteshmaagadh.whatsappgrouplinks.data.adapters.GroupsAdapter
 import com.riteshmaagadh.whatsappgrouplinks.data.models.Group
 import com.riteshmaagadh.whatsappgrouplinks.databinding.FragmentHomeBinding
@@ -47,7 +48,7 @@ class HomeFragment : Fragment() {
             lifecycleScope.launch(Dispatchers.IO){
                 FirebaseFirestore.getInstance()
                     .collection("whatsapp_groups")
-//                    .whereEqualTo("active", true)
+                    .orderBy("index", Query.Direction.DESCENDING)
                     .get()
                     .addOnSuccessListener {
                         binding.recyclerView.adapter = GroupsAdapter(it.toObjects(Group::class.java), requireContext())

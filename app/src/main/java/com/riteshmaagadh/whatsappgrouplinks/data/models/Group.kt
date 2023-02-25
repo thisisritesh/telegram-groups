@@ -9,7 +9,8 @@ data class Group(
     var group_link: String,
     var category: String,
     var imageUrl: String,
-    var active: Boolean
+    var active: Boolean,
+    var index: Long
 ) {
-    constructor() : this("", "", "", "", "",false)
+    constructor() : this("", "", "", "", "",false, 0)
 }
