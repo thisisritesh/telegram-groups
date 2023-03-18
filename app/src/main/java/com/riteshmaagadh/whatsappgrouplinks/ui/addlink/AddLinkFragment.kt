@@ -57,14 +57,16 @@ class AddLinkFragment : Fragment() {
         dialog = builder.create()
 
 
-        FirebaseFirestore.getInstance()
-            .collection("whatsapp_indexes")
-            .document("ECiL6ApsUOmPIZsSy1dB")
-            .get()
-            .addOnSuccessListener {
-                val index = it.toObject(Index::class.java)
-                currentIndex = index?.current_index!!
-            }
+        lifecycleScope.launch(Dispatchers.IO) {
+            FirebaseFirestore.getInstance()
+                .collection("whatsapp_indexes")
+                .document("ECiL6ApsUOmPIZsSy1dB")
+                .get()
+                .addOnSuccessListener {
+                    val index = it.toObject(Index::class.java)
+                    currentIndex = index?.current_index!!
+                }
+        }
 
         binding.addGroupBtn.setOnClickListener {
             if (Utils.isOnline(requireContext())){
@@ -163,21 +165,23 @@ class AddLinkFragment : Fragment() {
                         .load(bitmap)
                         .placeholder(R.drawable.picture)
                         .into(binding.imageView)
-                    val boas = ByteArrayOutputStream()
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 20,boas)
-                    val ref = FirebaseStorage.getInstance()
-                        .reference.child("WhatsAppGroup" + System.currentTimeMillis() + ".jpg")
-                    ref.putBytes(boas.toByteArray())
-                        .addOnSuccessListener {
-                            ref.downloadUrl.addOnSuccessListener {
-                                imageUrl = it.toString()
-                                dialog.dismiss()
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val boas = ByteArrayOutputStream()
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 20,boas)
+                        val ref = FirebaseStorage.getInstance()
+                            .reference.child("WhatsAppGroup" + System.currentTimeMillis() + ".jpg")
+                        ref.putBytes(boas.toByteArray())
+                            .addOnSuccessListener {
+                                ref.downloadUrl.addOnSuccessListener {
+                                    imageUrl = it.toString()
+                                    dialog.dismiss()
+                                }
                             }
-                        }
-                        .addOnFailureListener {
-                            dialog.dismiss()
-                            Toast.makeText(requireContext(),"Failed to upload image! Try Again.",Toast.LENGTH_SHORT).show()
-                        }
+                            .addOnFailureListener {
+                                dialog.dismiss()
+                                Toast.makeText(requireContext(),"Failed to upload image! Try Again.",Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -211,10 +215,12 @@ class AddLinkFragment : Fragment() {
     }
 
     private fun updateIndex() {
-        FirebaseFirestore.getInstance()
-            .collection("whatsapp_indexes")
-            .document("ECiL6ApsUOmPIZsSy1dB")
-            .update("current_index", currentIndex)
+        lifecycleScope.launch(Dispatchers.IO) {
+            FirebaseFirestore.getInstance()
+                .collection("whatsapp_indexes")
+                .document("ECiL6ApsUOmPIZsSy1dB")
+                .update("current_index", currentIndex)
+        }
     }
 
     private fun showSuccessDialog(){

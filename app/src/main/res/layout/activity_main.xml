@@ -24,7 +24,7 @@
         ads:layout_constraintStart_toStartOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintTop_toTopOf="parent"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
+        ads:adUnitId="@string/banner_ad_unit_id"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"

@@ -18,6 +18,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.riteshmaagadh.whatsappgrouplinks.R
 import com.riteshmaagadh.whatsappgrouplinks.data.adapters.GroupsAdapter
 import com.riteshmaagadh.whatsappgrouplinks.data.models.Group
 import com.riteshmaagadh.whatsappgrouplinks.databinding.ActivityCategoryDetailBinding
@@ -59,12 +60,6 @@ class CategoryDetailActivity : AppCompatActivity() {
             val layoutManager = LinearLayoutManager(this)
 
             binding.recyclerView.layoutManager = layoutManager
-            binding.recyclerView.addItemDecoration(
-                DividerItemDecoration(
-                    this,
-                    LinearLayoutManager.VERTICAL
-                )
-            )
 
             groupsAdapter = GroupsAdapter(groupList, this, object : GroupsAdapter.AdapterCallbacks {
                 override fun onJoinButtonClicked(groupLink: String) {
@@ -116,11 +111,16 @@ class CategoryDetailActivity : AppCompatActivity() {
                     .limit(10)
                     .get()
                     .addOnSuccessListener {
-                        lastDoc = it.documents[it.size() - 1]
-                        val groups = it.toObjects(Group::class.java)
-                        groupList.addAll(groups)
-                        groupsAdapter.notifyDataSetChanged()
-                        binding.progressBar.visibility = View.GONE
+                        if (it.documents.isNotEmpty()) {
+                            lastDoc = it.documents[it.size() - 1]
+                            val groups = it.toObjects(Group::class.java)
+                            groupList.addAll(groups)
+                            groupsAdapter.notifyDataSetChanged()
+                            binding.progressBar.visibility = View.GONE
+                        } else {
+                            binding.emptyView.visibility = View.VISIBLE
+                            binding.progressBar.visibility = View.GONE
+                        }
                     }
                     .addOnFailureListener {
                         binding.progressBar.visibility = View.GONE
@@ -145,28 +145,27 @@ class CategoryDetailActivity : AppCompatActivity() {
     }
 
     private fun fetchData() {
-        collectionRef
-            .orderBy("index", Query.Direction.DESCENDING)
-            .whereEqualTo("active",true)
-            .startAfter(lastDoc)
-            .limit(10)
-            .get()
-            .addOnSuccessListener {
-                if (it.documents.isNotEmpty()) {
-                    lastDoc = it.documents[it.size() - 1]
-                    val groups = it.toObjects(Group::class.java)
-                    groupList.addAll(groups)
-                    groupsAdapter.notifyDataSetChanged()
+        lifecycleScope.launch(Dispatchers.IO) {
+            collectionRef
+                .orderBy("index", Query.Direction.DESCENDING)
+                .whereEqualTo("active",true)
+                .startAfter(lastDoc)
+                .limit(10)
+                .get()
+                .addOnSuccessListener {
+                    if (it.documents.isNotEmpty()) {
+                        lastDoc = it.documents[it.size() - 1]
+                        val groups = it.toObjects(Group::class.java)
+                        groupList.addAll(groups)
+                        groupsAdapter.notifyDataSetChanged()
+                    }
                 }
-            }
-            .addOnFailureListener {
-
-            }
+        }
     }
 
 
     private fun loadAd() {
-        RewardedAd.load(this,"ca-app-pub-3940256099942544/5224354917", adRequest, object : RewardedAdLoadCallback() {
+        RewardedAd.load(this,getString(R.string.rewarded_ad_unit_id), adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 rewardedAd = null
             }

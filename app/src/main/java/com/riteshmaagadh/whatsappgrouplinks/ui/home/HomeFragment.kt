@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.riteshmaagadh.whatsappgrouplinks.R
 import com.riteshmaagadh.whatsappgrouplinks.data.adapters.GroupsAdapter
 import com.riteshmaagadh.whatsappgrouplinks.data.models.Group
 import com.riteshmaagadh.whatsappgrouplinks.databinding.FragmentHomeBinding
@@ -61,12 +62,6 @@ class HomeFragment : Fragment() {
             val layoutManager = LinearLayoutManager(requireContext())
 
             binding.recyclerView.layoutManager = layoutManager
-            binding.recyclerView.addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    LinearLayoutManager.VERTICAL
-                )
-            )
 
             groupsAdapter = GroupsAdapter(groupList, requireContext(), object : GroupsAdapter.AdapterCallbacks {
                 override fun onJoinButtonClicked(groupLink: String) {
@@ -143,7 +138,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun loadAd() {
-        RewardedAd.load(requireContext(),"ca-app-pub-3940256099942544/5224354917", adRequest, object : RewardedAdLoadCallback() {
+        RewardedAd.load(requireContext(), getString(R.string.rewarded_ad_unit_id), adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 rewardedAd = null
             }
@@ -155,23 +150,22 @@ class HomeFragment : Fragment() {
     }
 
     private fun fetchData() {
-        collectionRef
-            .orderBy("index", Query.Direction.DESCENDING)
-            .whereEqualTo("active",true)
-            .startAfter(lastDoc)
-            .limit(10)
-            .get()
-            .addOnSuccessListener {
-                if (it.documents.isNotEmpty()) {
-                    lastDoc = it.documents[it.size() - 1]
-                    val groups = it.toObjects(Group::class.java)
-                    groupList.addAll(groups)
-                    groupsAdapter.notifyDataSetChanged()
+        lifecycleScope.launch(Dispatchers.IO) {
+            collectionRef
+                .orderBy("index", Query.Direction.DESCENDING)
+                .whereEqualTo("active",true)
+                .startAfter(lastDoc)
+                .limit(10)
+                .get()
+                .addOnSuccessListener {
+                    if (it.documents.isNotEmpty()) {
+                        lastDoc = it.documents[it.size() - 1]
+                        val groups = it.toObjects(Group::class.java)
+                        groupList.addAll(groups)
+                        groupsAdapter.notifyDataSetChanged()
+                    }
                 }
-            }
-            .addOnFailureListener {
-
-            }
+        }
     }
 
 
