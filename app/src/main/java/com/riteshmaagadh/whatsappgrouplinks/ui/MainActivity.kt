@@ -1,8 +1,16 @@
 package com.riteshmaagadh.whatsappgrouplinks.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.OnUserEarnedRewardListener
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.navigation.NavigationBarView
 import com.riteshmaagadh.whatsappgrouplinks.R
 import com.riteshmaagadh.whatsappgrouplinks.databinding.ActivityMainBinding
@@ -31,9 +39,15 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        MobileAds.initialize(this)
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
+
         binding.bottomNavigationView.setOnItemReselectedListener {
 
         }
+
+
 
     }
 

@@ -31,6 +31,7 @@
             android:layout_marginTop="60dp"
             android:text="Group info sent!"
             android:textAllCaps="true"
+            android:fontFamily="@font/semibold"
             android:textColor="@color/primary_text_color"
             android:textSize="20sp" />
 
@@ -41,6 +42,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_margin="16dp"
+            android:fontFamily="@font/regular"
             android:text="Group info successfully sent to us! We will check and approve. Thankyou!"
             android:textColor="@color/secondary_text_color"
             android:textSize="16sp" />
@@ -53,6 +55,8 @@
             android:layout_margin="16dp"
             android:layout_weight="1"
             android:text="Okay"
+            android:fontFamily="@font/medium"
+            android:background="@drawable/button_bg"
             app:layout_constraintBottom_toTopOf="@+id/noButton"
             tools:layout_editor_absoluteX="8dp" />
 

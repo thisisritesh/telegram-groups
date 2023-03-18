@@ -70,11 +70,15 @@ class AddLinkFragment : Fragment() {
             if (Utils.isOnline(requireContext())){
                 if (binding.groupNameEditText.text!!.isNotEmpty()){
                     if (isValidGroupLink(binding.groupLinkEditText.text!!.toString())){
-                        addGroupRequest(
-                            binding.groupNameEditText.text.toString(),
-                            binding.groupLinkEditText.text.toString(),
-                            binding.categoriesSpinner.selectedItem.toString()
-                        )
+                        if (imageUrl.isNotEmpty()) {
+                            addGroupRequest(
+                                binding.groupNameEditText.text.toString(),
+                                binding.groupLinkEditText.text.toString(),
+                                binding.categoriesSpinner.selectedItem.toString()
+                            )
+                        } else {
+                            Toast.makeText(requireContext(),"Please upload an image!", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         binding.groupLinkInputLayout.error = "Invalid group link!"
                     }
@@ -84,6 +88,17 @@ class AddLinkFragment : Fragment() {
             } else {
                 Snackbar.make(requireContext(),binding.root,"No Internet!", Snackbar.LENGTH_SHORT).show()
             }
+        }
+
+        binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.addGroupBtn.isEnabled = isChecked
+        }
+
+        binding.privacyPolicyTv.setOnClickListener {
+            val url = "https://activegrouplinkswhatsapp.blogspot.com/2022/11/active-group-links-whatsapp.html"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
         }
 
         binding.imageView.setOnClickListener {
@@ -178,6 +193,7 @@ class AddLinkFragment : Fragment() {
                 .collection("whatsapp_groups")
                 .add(group)
                 .addOnSuccessListener {
+                    resetImageUrl()
                     updateIndex()
                     showSuccessDialog()
                 }
@@ -185,6 +201,13 @@ class AddLinkFragment : Fragment() {
                     Snackbar.make(requireContext(),binding.root,"Failed. Try Again!", Snackbar.LENGTH_SHORT).show()
                 }
         }
+    }
+
+    private fun resetImageUrl() {
+        imageUrl = ""
+        Glide.with(requireContext())
+            .load(R.drawable.add_image)
+            .into(binding.imageView)
     }
 
     private fun updateIndex() {

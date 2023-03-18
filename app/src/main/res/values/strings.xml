@@ -13,6 +13,9 @@
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="upload_photo">Upload Photo</string>
 
+    <string name="admob_app_id">ca-app-pub-1346154139825617~3363068850</string>
+    <string name="banner_ad_unit_id">ca-app-pub-1346154139825617/4432091022</string>
+    <string name="rewarded_ad_unit_id">ca-app-pub-1346154139825617/7134275980</string>
 
     <string-array name="categories">
         <item>Dating</item>

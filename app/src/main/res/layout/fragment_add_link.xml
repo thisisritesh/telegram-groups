@@ -27,6 +27,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="16dp"
             android:text="@string/add_link"
+            android:fontFamily="@font/semibold"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -47,6 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/upload_photo"
+        android:fontFamily="@font/medium"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="16sp"
         android:padding="8dp"
@@ -73,6 +75,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/group_name"
             android:imeOptions="actionDone"
+            android:fontFamily="@font/regular"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,6 +98,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_group_link"
             android:imeOptions="actionDone"
+            android:fontFamily="@font/regular"
             android:inputType="textUri" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,12 +129,44 @@
 
     </FrameLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/purple_500"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I agree to the "
+            android:fontFamily="@font/regular"
+            android:textColor="@color/primary_text_color"/>
+
+        <TextView
+            android:id="@+id/privacy_policy_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary_text_color"
+            android:textStyle="bold"
+            android:fontFamily="@font/medium"
+            android:text="privacy policy"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/add_group_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_group"
         android:padding="12dp"
+        android:enabled="false"
+        android:fontFamily="@font/medium"
+        android:background="@drawable/button_bg"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"/>
 

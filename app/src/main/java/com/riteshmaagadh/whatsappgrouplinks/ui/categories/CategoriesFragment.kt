@@ -35,23 +35,8 @@ class CategoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (Utils.isOnline(requireContext())){
-            binding.progressBar.visibility = View.VISIBLE
-
-            lifecycleScope.launch(Dispatchers.IO){
-                FirebaseFirestore.getInstance()
-                    .collection("whatsapp_categories")
-                    .get()
-                    .addOnSuccessListener {
-                        binding.progressBar.visibility = View.GONE
-                        binding.categoryRecyclerView.adapter =
-                            CategoriesAdapter(it.toObjects(Category::class.java), requireContext())
-                    }
-                    .addOnFailureListener {
-                        binding.progressBar.visibility = View.GONE
-                        startActivity(Intent(requireContext(), ErrorActivity::class.java))
-                        requireActivity().finish()
-                    }
-            }
+            binding.categoryRecyclerView.adapter =
+                CategoriesAdapter(Utils.getCategories(), requireContext())
         } else {
             val intent = Intent(requireContext(), ErrorActivity::class.java)
             intent.putExtra("has_network_gone",true)
