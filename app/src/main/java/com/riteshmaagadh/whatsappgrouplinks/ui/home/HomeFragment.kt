@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.riteshmaagadh.whatsappgrouplinks.R
 import com.riteshmaagadh.whatsappgrouplinks.data.adapters.GroupsAdapter
+import com.riteshmaagadh.whatsappgrouplinks.data.models.Config
 import com.riteshmaagadh.whatsappgrouplinks.data.models.Group
 import com.riteshmaagadh.whatsappgrouplinks.databinding.FragmentHomeBinding
 import com.riteshmaagadh.whatsappgrouplinks.ui.Utils
@@ -45,6 +46,7 @@ class HomeFragment : Fragment() {
     private val groupList: ArrayList<Group> = arrayListOf()
     private var rewardedAd: RewardedAd? = null
     private val adRequest = AdRequest.Builder().build()
+    private var isAdRequired = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,19 +65,36 @@ class HomeFragment : Fragment() {
 
             binding.recyclerView.layoutManager = layoutManager
 
+            try {
+                FirebaseFirestore.getInstance()
+                    .collection("config")
+                    .document("Yvo1ex15zD4vBO3QETLA")
+                    .get()
+                    .addOnSuccessListener {
+                        val config = it.toObject(Config::class.java)
+                        isAdRequired = config?.ad_required!!
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
             groupsAdapter = GroupsAdapter(groupList, requireContext(), object : GroupsAdapter.AdapterCallbacks {
                 override fun onJoinButtonClicked(groupLink: String) {
-                    if (rewardedAd != null) {
-                        rewardedAd?.show(requireActivity()
-                        ) { reward ->
-                            loadAd()
-                        }
-                        rewardedAd?.fullScreenContentCallback = object :
-                            FullScreenContentCallback() {
-                            override fun onAdDismissedFullScreenContent() {
-                                super.onAdDismissedFullScreenContent()
-                                Utils.openWhatsapp(requireContext(), groupLink)
+                    if (isAdRequired) {
+                        if (rewardedAd != null) {
+                            rewardedAd?.show(requireActivity()
+                            ) { reward ->
+                                loadAd()
                             }
+                            rewardedAd?.fullScreenContentCallback = object :
+                                FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    super.onAdDismissedFullScreenContent()
+                                    Utils.openWhatsapp(requireContext(), groupLink)
+                                }
+                            }
+                        } else {
+                            Utils.openWhatsapp(requireContext(), groupLink)
                         }
                     } else {
                         Utils.openWhatsapp(requireContext(), groupLink)
