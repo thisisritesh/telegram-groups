@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">TeleJoin</string>
+    <string name="home">Home</string>
+    <string name="catgories">Categories</string>
+    <string name="add_link">Add Group</string>
+    <string name="join">Join</string>
+    <string name="group_name">Enter group name</string>
+    <string name="enter_group_link">Enter group link</string>
+    <string name="add_group">Add Group</string>
+    <string name="retry">Try Again!</string>
+    <string name="no_groups_found_in_this_category">No groups found in this category!</string>
+    <string name="no_internet">No Internet Connection!</string>
+    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="upload_photo">Upload Photo</string>
+
+    <string name="admob_app_id">ca-app-pub-1346154139825617~6919170481</string>
+    <string name="banner_ad_unit_id">ca-app-pub-1346154139825617/9394813090</string>
+    <string name="rewarded_ad_unit_id">ca-app-pub-1346154139825617/7281438038</string>
+
+    <string-array name="categories">
+        <item>Dating</item>
+        <item>Buy &amp; Sell</item>
+        <item>Friendship</item>
+        <item>Education</item>
+        <item>Funny</item>
+        <item>Gaming</item>
+        <item>Fitness</item>
+        <item>Sports</item>
+        <item>News</item>
+        <item>Photography</item>
+        <item>Technology</item>
+        <item>Others</item>
+    </string-array>
+
+</resources>

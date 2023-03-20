@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "704046138133",
+    "project_id": "telegramgroups-6cf24",
+    "storage_bucket": "telegramgroups-6cf24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704046138133:android:8e6d207f25d0782f08df1c",
+        "android_client_info": {
+          "package_name": "com.riteshmaagadh.telejoin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704046138133-te2skh7mu4rofcm6fq96mfevo67526gg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdWaflWptldQlbp5B46nPnQ0v0y_agyTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704046138133-te2skh7mu4rofcm6fq96mfevo67526gg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

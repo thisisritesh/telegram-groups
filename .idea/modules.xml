@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/telegram-groups.iml" filepath="$PROJECT_DIR$/.idea/telegram-groups.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WhatsappGroupLinks.iml" filepath="$PROJECT_DIR$/.idea/modules/WhatsappGroupLinks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WhatsappGroupLinks.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WhatsappGroupLinks.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WhatsappGroupLinks.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WhatsappGroupLinks.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WhatsappGroupLinks.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WhatsappGroupLinks.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WhatsappGroupLinks.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WhatsappGroupLinks.app.unitTest.iml" />
     </modules>
   </component>
 </project>
